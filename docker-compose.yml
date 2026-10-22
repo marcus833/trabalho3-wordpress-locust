@@ -28,6 +28,16 @@ services:
   wordpress3:
     <<: *wordpress
 
+  # wordpress4 e wordpress5 sao usados apenas nos testes de carga do
+  # Trabalho 3, para explorar niveis de escalabilidade alem dos 3
+  # exigidos no Trabalho 2. O Nginx so os utiliza quando a configuracao
+  # nginx-4-instancias.conf ou nginx-5-instancias.conf esta ativa.
+  wordpress4:
+    <<: *wordpress
+
+  wordpress5:
+    <<: *wordpress
+
   nginx:
     image: nginx:1.19.0
     ports:
@@ -39,5 +49,25 @@ services:
       - wordpress1
       - wordpress2
       - wordpress3
+      - wordpress4
+      - wordpress5
+
+  locust:
+    image: grubykarol/locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./locust/locustfiles:/locust
+      - ./resultados:/resultados
+    environment:
+      ATTACKED_HOST: http://nginx
+      LOCUST_FILE: cenario1_imagem_1mb.py
+    depends_on:
+      - nginx
+
 volumes:
   mysql_data:
+
+networks:
+  default:
+    name: wordpress_net

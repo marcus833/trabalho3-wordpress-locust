@@ -85,6 +85,16 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROT
 	$_SERVER['HTTPS'] = 'on';
 }
 
+// Site URL dinamica baseada no cabecalho Host da requisicao. Isso permite
+// acessar o mesmo WordPress tanto via http://localhost:8081 (navegador, via
+// mapeamento de porta do Nginx) quanto via http://nginx (rede interna do
+// Docker, usada pelo Locust no Trabalho 3) sem gerar redirecionamentos para
+// uma URL fixa que nao seria alcancavel a partir do outro contexto.
+if (isset($_SERVER['HTTP_HOST'])) {
+	define('WP_HOME', 'http://' . $_SERVER['HTTP_HOST']);
+	define('WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST']);
+}
+
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */

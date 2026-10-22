@@ -1,0 +1,7 @@
+resultados/*_stats_history.csv
+resultados/*_failures.csv
+resultados/*_exceptions.csv
+locust/assets/*.jpg
+locust/assets/*.html
+__pycache__/
+*.pyc

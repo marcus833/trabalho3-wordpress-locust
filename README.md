@@ -41,7 +41,7 @@ docker compose ps
 
 ### 1. Cinco contêineres em execução
 
-(evidencias\01-containers.png)
+![Cinco contêineres em execução](evidencias/01-containers.png)
 
 ### 2. WordPress funcionando pelo Nginx
 
