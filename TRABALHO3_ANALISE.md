@@ -16,6 +16,37 @@ mais pesados), com um timeout de 10 segundos por requisição — sem isso, o
 próprio teste ficava travado quando o servidor parava de responder, o que
 aconteceu mais de uma vez enquanto eu rodava tudo isso.
 
+## Gráficos
+
+Pra cada cenário, gerei dois gráficos: tempo de resposta por número de
+usuários (agrupado por quantidade de instâncias) e requisições por segundo
+por número de instâncias (agrupado por quantidade de usuários).
+
+### Cenário 1 — Post com imagem de 1MB
+
+![Tempo de resposta - cenário 1](resultados/graficos/cenario1_imagem_1mb_tempo_resposta.png)
+![Requisições por segundo - cenário 1](resultados/graficos/cenario1_imagem_1mb_requisicoes_por_segundo.png)
+
+### Cenário 2 — Post com texto de 400KB
+
+![Tempo de resposta - cenário 2](resultados/graficos/cenario2_texto_400kb_tempo_resposta.png)
+![Requisições por segundo - cenário 2](resultados/graficos/cenario2_texto_400kb_requisicoes_por_segundo.png)
+
+### Cenário 3 — Post com imagem de 300KB
+
+![Tempo de resposta - cenário 3](resultados/graficos/cenario3_imagem_300kb_tempo_resposta.png)
+![Requisições por segundo - cenário 3](resultados/graficos/cenario3_imagem_300kb_requisicoes_por_segundo.png)
+
+### Cenário 4 — Página inicial (listagem de posts)
+
+![Tempo de resposta - cenário 4](resultados/graficos/cenario4_home_tempo_resposta.png)
+![Requisições por segundo - cenário 4](resultados/graficos/cenario4_home_requisicoes_por_segundo.png)
+
+### Cenário 5 — Busca no site
+
+![Tempo de resposta - cenário 5](resultados/graficos/cenario5_busca_tempo_resposta.png)
+![Requisições por segundo - cenário 5](resultados/graficos/cenario5_busca_requisicoes_por_segundo.png)
+
 ## O que os números mostraram
 
 A primeira coisa que me chamou atenção foi que **o tipo de conteúdo importou
