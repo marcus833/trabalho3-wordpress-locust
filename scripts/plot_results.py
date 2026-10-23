@@ -24,7 +24,7 @@ os.makedirs(GRAFICOS_DIR, exist_ok=True)
 
 PADRAO_NOME = re.compile(r"^(cenario\d_\w+?)_(\d+)inst_(\d+)users_stats\.csv$")
 
-CORES = ["#8ecae6", "#ffd166", "#ef476f"]
+CORES = ["#8ecae6", "#ffd166", "#ef476f", "#06d6a0", "#073b4c", "#9d4edd", "#f3722c"]
 
 
 def carregar_resultados():
