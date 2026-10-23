@@ -10,4 +10,6 @@ class WebsiteUser(HttpUser):
 
     @task
     def abrir_home(self):
-        self.client.get(HOME_PATH, name="cenario4_home")
+        # timeout evita que uma requisicao travada sob carga extrema
+        # fique pendurada indefinidamente e congele o teste inteiro.
+        self.client.get(HOME_PATH, name="cenario4_home", timeout=10)

@@ -5,3 +5,4 @@ locust/assets/*.jpg
 locust/assets/*.html
 __pycache__/
 *.pyc
+wordpress-data/wp-content/upgrade/

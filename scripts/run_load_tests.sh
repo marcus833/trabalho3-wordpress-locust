@@ -59,6 +59,15 @@ run_time_para() {
   fi
 }
 
+# Watchdog: tempo maximo de parede (em segundos) que um unico teste pode
+# rodar antes de ser morto a forca. Mesmo com timeout nas requisicoes do
+# Locust, isso e uma segunda camada de seguranca contra travamentos que
+# ja aconteceram sob carga extrema (ex: 1 teste travado por 27+ minutos).
+watchdog_para() {
+  local tempo_s="${1%s}"
+  echo $((tempo_s + 60))
+}
+
 for inst in "${INSTANCIAS[@]}"; do
   echo "============================================================"
   echo "Configurando Nginx para $inst instancia(s) de WordPress..."
@@ -72,6 +81,7 @@ for inst in "${INSTANCIAS[@]}"; do
     for usuarios in "${USUARIOS[@]}"; do
       r=$(spawn_rate_para "$usuarios")
       tempo=$(run_time_para "$usuarios")
+      watchdog=$(watchdog_para "$tempo")
       prefixo="${cenario}_${inst}inst_${usuarios}users"
 
       if [ -f "$RESULTADOS_DIR/${prefixo}_stats.csv" ]; then
@@ -87,7 +97,7 @@ for inst in "${INSTANCIAS[@]}"; do
       # quer observar). Isso nao deve interromper a matriz de testes.
       set +e
       docker rm -f "$LOCUST_RUN_NAME" >/dev/null 2>&1 || true
-      docker run --rm \
+      timeout "$watchdog" docker run --rm \
         --name "$LOCUST_RUN_NAME" \
         --network "$NETWORK" \
         -v "$(pwd)/locust/locustfiles:/locust" \
@@ -96,6 +106,10 @@ for inst in "${INSTANCIAS[@]}"; do
         -e LOCUST_FILE="${cenario}.py" \
         -e LOCUST_OPTS="--headless -u $usuarios -r $r --run-time $tempo --csv=/resultados/$prefixo" \
         grubykarol/locust
+      if [ $? -eq 124 ]; then
+        echo "----> AVISO: $prefixo excedeu o watchdog de ${watchdog}s e foi morto a forca."
+        docker rm -f "$LOCUST_RUN_NAME" >/dev/null 2>&1 || true
+      fi
       set -e
 
       echo "----> Concluido: $prefixo"

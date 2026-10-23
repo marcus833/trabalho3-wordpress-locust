@@ -10,4 +10,6 @@ class WebsiteUser(HttpUser):
 
     @task
     def buscar(self):
-        self.client.get(SEARCH_PATH, name="cenario5_busca")
+        # timeout evita que uma requisicao travada sob carga extrema
+        # fique pendurada indefinidamente e congele o teste inteiro.
+        self.client.get(SEARCH_PATH, name="cenario5_busca", timeout=10)

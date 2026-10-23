@@ -11,4 +11,6 @@ class WebsiteUser(HttpUser):
 
     @task
     def abrir_post_texto_400kb(self):
-        self.client.get(POST_PATH, name="cenario2_texto_400kb")
+        # timeout evita que uma requisicao travada sob carga extrema
+        # fique pendurada indefinidamente e congele o teste inteiro.
+        self.client.get(POST_PATH, name="cenario2_texto_400kb", timeout=10)

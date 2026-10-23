@@ -10,5 +10,7 @@ class WebsiteUser(HttpUser):
 
     @task
     def abrir_post_imagem_300kb(self):
-        self.client.get(POST_PATH, name="cenario3_imagem_300kb_html")
-        self.client.get(IMAGE_PATH, name="cenario3_imagem_300kb_imagem")
+        # timeout evita que uma requisicao travada sob carga extrema
+        # fique pendurada indefinidamente e congele o teste inteiro.
+        self.client.get(POST_PATH, name="cenario3_imagem_300kb_html", timeout=10)
+        self.client.get(IMAGE_PATH, name="cenario3_imagem_300kb_imagem", timeout=10)
